@@ -69,7 +69,7 @@ class PetShopDialog(tk.Frame):
         btn_manufacturer_table.pack(side=tk.RIGHT)
 
         self.tree = ttk.Treeview(self, columns=('ID', 'PetShopID', 'Name', 'Adress', 'PostalCode', 'Phone'),
-                                 height=38, show='headings')
+                                 height=29, show='headings')
 
         self.tree.column('ID', width=100, anchor=tk.CENTER)
         self.tree.column('PetShopID', width=100, anchor=tk.CENTER)
@@ -118,328 +118,840 @@ class PetShopDialog(tk.Frame):
 class CustomerDialog(tk.Toplevel):
     def __init__(self):
         super().__init__(pet_shop_dialog)
-        self.init_main()
+        self.init_customer()
 
     # self.db = db
-
-    def init_main(self):
+    def init_customer(self):
         self.title("Customer Table")
-        self.geometry("1020x900+300+200")
+        self.geometry("1280x800")
         self.resizable(False, False)
-        toolbar = tk.Frame(bg='#d7d8e0', bd=2)
-        toolbar.pack(side=tk.TOP, fill=tk.X)
 
         self.add_img = tk.PhotoImage(file="button_grey_add.png")
-        btn_open_dialog = tk.Button(self, toolbar, text='Add', command=self.open_dialog, bg='#d7d8e0', bd=0,
-                                    compound=tk.TOP, image=self.add_img)
+        btn_open_dialog = tk.Button(self, text='Add', command=self.open_dialog_customer, bg='#d7d8e0', bd=0,
+                                    compound=tk.TOP, image=self.add_img, padx="15", pady="6", font="15")
         btn_open_dialog.pack(side=tk.LEFT)
 
         self.update_img = tk.PhotoImage(file='database_download.png')
-        btn_edit_dialog = tk.Button(self, toolbar, text='Edit', bg='#d7d8e0', bd=0, image=self.update_img,
-                                    compound=tk.TOP, command=self.open_update_dialog)
+        btn_edit_dialog = tk.Button(self, text='Edit', command=self.update_dialog_customer, bg='#d7d8e0', bd=0,
+                                    image=self.update_img, compound=tk.TOP, padx="15", pady="6", font="15")
         btn_edit_dialog.pack(side=tk.LEFT)
 
         self.delete_img = tk.PhotoImage(file='button_grey_delete.png')
-        btn_delete_dialog = tk.Button(self, toolbar, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
-                                      compound=tk.TOP)
+        btn_delete_dialog = tk.Button(self, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_delete_dialog.pack(side=tk.LEFT)
 
         self.search_img = tk.PhotoImage(file='zoom_in.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
         self.refresh_img = tk.PhotoImage(file='refresh.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
-    def open_dialog(self):
-        Child()
+        self.tree = ttk.Treeview(self, columns=('ID', 'PetShopID', 'Name', 'Adress', 'PostalCode', 'Phone'),
+                                 height=38, show='headings')
 
-    def open_update_dialog(self):
-        Update()
+        self.tree.column('ID', width=90, anchor=tk.CENTER)
+        self.tree.column('PetShopID', width=100, anchor=tk.CENTER)
+        self.tree.column('Name', width=150, anchor=tk.CENTER)
+        self.tree.column('Adress', width=200, anchor=tk.CENTER)
+        self.tree.column('PostalCode', width=150, anchor=tk.CENTER)
+        self.tree.column('Phone', width=170, anchor=tk.CENTER)
 
+        self.tree.heading('ID', text='ID')
+        self.tree.heading('PetShopID', text='PetShopID')
+        self.tree.heading('Name', text='Name')
+        self.tree.heading('Adress', text='Adress')
+        self.tree.heading('PostalCode', text='PostalCode')
+        self.tree.heading('Phone', text='Phone')
+
+        self.tree.pack()
+
+    def open_dialog_customer(self):
+        AddCustomer()
+
+    def update_dialog_customer(self):
+        UpdateCustomer()
+
+class AddCustomer(tk.Toplevel):
+    def __init__(self):
+        super().__init__(pet_shop_dialog)
+        self.init_child()
+        self.view = pet_shop_table
+
+    def init_child(self):
+        self.title("Insert Values")
+        self.geometry('600x400')
+        self.resizable(False, False)
+
+        label_pet_shop_id = tk.Label(self, text='PetShopID:')
+        label_pet_shop_id.place(x=180, y=50)
+        label_name = tk.Label(self, text='Name:')
+        label_name.place(x=180, y=80)
+        label_adress = tk.Label(self, text='Adress:')
+        label_adress.place(x=180, y=110)
+        label_postal_code = tk.Label(self, text='PostalCode:')
+        label_postal_code.place(x=180, y=140)
+        label_phone = tk.Label(self, text='Phone:')
+        label_phone.place(x=180, y=170)
+
+        self.entry_pet_shop_id = ttk.Entry(self)
+        self.entry_pet_shop_id.place(x=325, y=50)
+
+        self.entry_name = ttk.Entry(self)
+        self.entry_name.place(x=325, y=80)
+
+        self.entry_adress = ttk.Entry(self)
+        self.entry_adress.place(x=325, y=110)
+
+        self.entry_postal_code = ttk.Entry(self)
+        self.entry_postal_code.place(x=325, y=140)
+
+        self.entry_phone = ttk.Entry(self)
+        self.entry_phone.place(x=325, y=170)
+
+        btn_cancel = ttk.Button(self, text='Close', command=self.destroy)
+        btn_cancel.place(x=350, y=300)
+
+        self.btn_add = ttk.Button(self, text='Add')
+        self.btn_add.place(x=200, y=300)
+        self.btn_add.bind('<Button-1>')
+
+class UpdateCustomer(AddCustomer):
+    def __init__(self):
+        super().__init__()
+        self.init_edit()
+        self.view = pet_shop_table
+
+    def init_edit(self):
+        self.title('Edit')
+        btn_edit = ttk.Button(self, text='Edit')
+        btn_edit.place(x=200, y=300)
+        btn_edit.bind('<Button-1>')
+
+        self.btn_add.destroy()
 
 class EmployeeDialog(tk.Toplevel):
     def __init__(self):
         super().__init__(pet_shop_dialog)
-        self.init_main()
+        self.init_employee()
         self.view = pet_shop_table
 
     # self.db = db
 
-    def init_main(self):
+    def init_employee(self):
         self.title("Employee Table")
-        self.geometry("1020x900+300+200")
+        self.geometry("1280x800")
         self.resizable(False, False)
-        toolbar = tk.Frame(bg='#d7d8e0', bd=2)
-        toolbar.pack(side=tk.TOP, fill=tk.X)
 
         self.add_img = tk.PhotoImage(file="button_grey_add.png")
-        btn_open_dialog = tk.Button(self, toolbar, text='Add', command=self.open_dialog, bg='#d7d8e0', bd=0,
-                                    compound=tk.TOP, image=self.add_img)
+        btn_open_dialog = tk.Button(self, text='Add', command=self.open_dialog_employee, bg='#d7d8e0', bd=0,
+                                    compound=tk.TOP, image=self.add_img, padx="15", pady="6", font="15")
         btn_open_dialog.pack(side=tk.LEFT)
 
         self.update_img = tk.PhotoImage(file='database_download.png')
-        btn_edit_dialog = tk.Button(self, toolbar, text='Edit', bg='#d7d8e0', bd=0, image=self.update_img,
-                                    compound=tk.TOP, command=self.open_update_dialog)
+        btn_edit_dialog = tk.Button(self, text='Edit', command=self.update_dialog_employee, bg='#d7d8e0', bd=0,
+                                    image=self.update_img, compound=tk.TOP, padx="15", pady="6", font="15")
         btn_edit_dialog.pack(side=tk.LEFT)
 
         self.delete_img = tk.PhotoImage(file='button_grey_delete.png')
-        btn_delete_dialog = tk.Button(self, toolbar, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
-                                      compound=tk.TOP)
+        btn_delete_dialog = tk.Button(self, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_delete_dialog.pack(side=tk.LEFT)
 
         self.search_img = tk.PhotoImage(file='zoom_in.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
         self.refresh_img = tk.PhotoImage(file='refresh.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
-    def open_dialog(self):
-        Child()
+        self.tree = ttk.Treeview(self, columns=('ID', 'PetShopID', 'Name', 'Adress', 'PostalCode', 'Phone'),
+                                 height=38, show='headings')
 
-    def open_update_dialog(self):
-        Update()
+        self.tree.column('ID', width=90, anchor=tk.CENTER)
+        self.tree.column('PetShopID', width=100, anchor=tk.CENTER)
+        self.tree.column('Name', width=150, anchor=tk.CENTER)
+        self.tree.column('Adress', width=200, anchor=tk.CENTER)
+        self.tree.column('PostalCode', width=150, anchor=tk.CENTER)
+        self.tree.column('Phone', width=170, anchor=tk.CENTER)
 
+        self.tree.heading('ID', text='ID')
+        self.tree.heading('PetShopID', text='PetShopID')
+        self.tree.heading('Name', text='Name')
+        self.tree.heading('Adress', text='Adress')
+        self.tree.heading('PostalCode', text='PostalCode')
+        self.tree.heading('Phone', text='Phone')
+
+        self.tree.pack()
+
+    def open_dialog_employee(self):
+        AddEmployee()
+
+    def update_dialog_employee(self):
+        UpdateEmployee()
+
+class AddEmployee(tk.Toplevel):
+    def __init__(self):
+        super().__init__(pet_shop_dialog)
+        self.init_child()
+        self.view = pet_shop_table
+
+    def init_child(self):
+        self.title("Insert Values")
+        self.geometry('600x400')
+        self.resizable(False, False)
+
+        label_pet_shop_id = tk.Label(self, text='PetShopID:')
+        label_pet_shop_id.place(x=180, y=50)
+        label_name = tk.Label(self, text='Name:')
+        label_name.place(x=180, y=80)
+        label_adress = tk.Label(self, text='Adress:')
+        label_adress.place(x=180, y=110)
+        label_postal_code = tk.Label(self, text='PostalCode:')
+        label_postal_code.place(x=180, y=140)
+        label_phone = tk.Label(self, text='Phone:')
+        label_phone.place(x=180, y=170)
+
+        self.entry_pet_shop_id = ttk.Entry(self)
+        self.entry_pet_shop_id.place(x=325, y=50)
+
+        self.entry_name = ttk.Entry(self)
+        self.entry_name.place(x=325, y=80)
+
+        self.entry_adress = ttk.Entry(self)
+        self.entry_adress.place(x=325, y=110)
+
+        self.entry_postal_code = ttk.Entry(self)
+        self.entry_postal_code.place(x=325, y=140)
+
+        self.entry_phone = ttk.Entry(self)
+        self.entry_phone.place(x=325, y=170)
+
+        btn_cancel = ttk.Button(self, text='Close', command=self.destroy)
+        btn_cancel.place(x=350, y=300)
+
+        self.btn_add = ttk.Button(self, text='Add')
+        self.btn_add.place(x=200, y=300)
+        self.btn_add.bind('<Button-1>')
+
+class UpdateEmployee(AddEmployee):
+    def __init__(self):
+        super().__init__()
+        self.init_edit()
+        self.view = pet_shop_table
+
+    def init_edit(self):
+        self.title('Edit')
+        btn_edit = ttk.Button(self, text='Edit')
+        btn_edit.place(x=200, y=300)
+        btn_edit.bind('<Button-1>')
+
+        self.btn_add.destroy()
 
 class OrderDialog(tk.Toplevel):
     def __init__(self):
         super().__init__(pet_shop_dialog)
-        self.init_main()
+        self.init_order()
 
-    # self.db = db
-
-    def init_main(self):
+    def init_order(self):
         self.title("Order Table")
-        self.geometry("1020x900+300+200")
+        self.geometry("1280x800")
         self.resizable(False, False)
-        toolbar = tk.Frame(bg='#d7d8e0', bd=2)
-        toolbar.pack(side=tk.TOP, fill=tk.X)
 
         self.add_img = tk.PhotoImage(file="button_grey_add.png")
-        btn_open_dialog = tk.Button(self, toolbar, text='Add', command=self.open_dialog, bg='#d7d8e0', bd=0,
-                                    compound=tk.TOP, image=self.add_img)
+        btn_open_dialog = tk.Button(self, text='Add', command=self.open_dialog_order, bg='#d7d8e0', bd=0,
+                                    compound=tk.TOP, image=self.add_img, padx="15", pady="6", font="15")
         btn_open_dialog.pack(side=tk.LEFT)
 
         self.update_img = tk.PhotoImage(file='database_download.png')
-        btn_edit_dialog = tk.Button(self, toolbar, text='Edit', bg='#d7d8e0', bd=0, image=self.update_img,
-                                    compound=tk.TOP, command=self.open_update_dialog)
+        btn_edit_dialog = tk.Button(self, text='Edit', command=self.update_dialog_order, bg='#d7d8e0', bd=0,
+                                    image=self.update_img, compound=tk.TOP, padx="15", pady="6", font="15")
         btn_edit_dialog.pack(side=tk.LEFT)
 
         self.delete_img = tk.PhotoImage(file='button_grey_delete.png')
-        btn_delete_dialog = tk.Button(self, toolbar, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
-                                      compound=tk.TOP)
+        btn_delete_dialog = tk.Button(self, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_delete_dialog.pack(side=tk.LEFT)
 
         self.search_img = tk.PhotoImage(file='zoom_in.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
         self.refresh_img = tk.PhotoImage(file='refresh.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
-    def open_dialog(self):
-        Child()
+        self.tree = ttk.Treeview(self, columns=('ID', 'PetShopID', 'Name', 'Adress', 'PostalCode', 'Phone'),
+                                 height=38, show='headings')
 
-    def open_update_dialog(self):
-        Update()
+        self.tree.column('ID', width=90, anchor=tk.CENTER)
+        self.tree.column('PetShopID', width=100, anchor=tk.CENTER)
+        self.tree.column('Name', width=150, anchor=tk.CENTER)
+        self.tree.column('Adress', width=200, anchor=tk.CENTER)
+        self.tree.column('PostalCode', width=150, anchor=tk.CENTER)
+        self.tree.column('Phone', width=170, anchor=tk.CENTER)
 
+        self.tree.heading('ID', text='ID')
+        self.tree.heading('PetShopID', text='PetShopID')
+        self.tree.heading('Name', text='Name')
+        self.tree.heading('Adress', text='Adress')
+        self.tree.heading('PostalCode', text='PostalCode')
+        self.tree.heading('Phone', text='Phone')
+
+        self.tree.pack()
+
+    def open_dialog_order(self):
+        AddOrder()
+
+    def update_dialog_order(self):
+        UpdateOrder()
+
+class AddOrder(tk.Toplevel):
+    def __init__(self):
+        super().__init__(pet_shop_dialog)
+        self.init_child()
+        self.view = pet_shop_table
+
+    def init_child(self):
+        self.title("Insert Values")
+        self.geometry('600x400')
+        self.resizable(False, False)
+
+        label_pet_shop_id = tk.Label(self, text='PetShopID:')
+        label_pet_shop_id.place(x=180, y=50)
+        label_name = tk.Label(self, text='Name:')
+        label_name.place(x=180, y=80)
+        label_adress = tk.Label(self, text='Adress:')
+        label_adress.place(x=180, y=110)
+        label_postal_code = tk.Label(self, text='PostalCode:')
+        label_postal_code.place(x=180, y=140)
+        label_phone = tk.Label(self, text='Phone:')
+        label_phone.place(x=180, y=170)
+
+        self.entry_pet_shop_id = ttk.Entry(self)
+        self.entry_pet_shop_id.place(x=325, y=50)
+
+        self.entry_name = ttk.Entry(self)
+        self.entry_name.place(x=325, y=80)
+
+        self.entry_adress = ttk.Entry(self)
+        self.entry_adress.place(x=325, y=110)
+
+        self.entry_postal_code = ttk.Entry(self)
+        self.entry_postal_code.place(x=325, y=140)
+
+        self.entry_phone = ttk.Entry(self)
+        self.entry_phone.place(x=325, y=170)
+
+        btn_cancel = ttk.Button(self, text='Close', command=self.destroy)
+        btn_cancel.place(x=350, y=300)
+
+        self.btn_add = ttk.Button(self, text='Add')
+        self.btn_add.place(x=200, y=300)
+        self.btn_add.bind('<Button-1>')
+
+class UpdateOrder(AddOrder):
+    def __init__(self):
+        super().__init__()
+        self.init_edit()
+        self.view = pet_shop_table
+
+    def init_edit(self):
+        self.title('Edit')
+        btn_edit = ttk.Button(self, text='Edit')
+        btn_edit.place(x=200, y=300)
+        btn_edit.bind('<Button-1>')
+
+        self.btn_add.destroy()
 
 class PetDialog(tk.Toplevel):
     def __init__(self):
         super().__init__(pet_shop_dialog)
-        self.init_main()
+        self.init_pet()
 
     # self.db = db
 
-    def init_main(self):
+    def init_pet(self):
         self.title("Pet Table")
-        self.geometry("1020x700+300+200")
+        self.geometry("1280x800")
         self.resizable(False, False)
-        toolbar = tk.Frame(bg='#d7d8e0', bd=2)
-        toolbar.pack(side=tk.TOP, fill=tk.X)
 
         self.add_img = tk.PhotoImage(file="button_grey_add.png")
-        btn_open_dialog = tk.Button(self, toolbar, text='Add', command=self.open_dialog, bg='#d7d8e0', bd=0,
-                                    compound=tk.TOP, image=self.add_img)
+        btn_open_dialog = tk.Button(self, text='Add', command=self.open_dialog_pet, bg='#d7d8e0', bd=0,
+                                    compound=tk.TOP, image=self.add_img, padx="15", pady="6", font="15")
         btn_open_dialog.pack(side=tk.LEFT)
 
         self.update_img = tk.PhotoImage(file='database_download.png')
-        btn_edit_dialog = tk.Button(self, toolbar, text='Edit', bg='#d7d8e0', bd=0, image=self.update_img,
-                                    compound=tk.TOP, command=self.open_update_dialog)
+        btn_edit_dialog = tk.Button(self, text='Edit', command=self.update_dialog_pet, bg='#d7d8e0', bd=0,
+                                    image=self.update_img, compound=tk.TOP, padx="15", pady="6", font="15")
         btn_edit_dialog.pack(side=tk.LEFT)
 
         self.delete_img = tk.PhotoImage(file='button_grey_delete.png')
-        btn_delete_dialog = tk.Button(self, toolbar, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
-                                      compound=tk.TOP)
+        btn_delete_dialog = tk.Button(self, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_delete_dialog.pack(side=tk.LEFT)
 
         self.search_img = tk.PhotoImage(file='zoom_in.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
         self.refresh_img = tk.PhotoImage(file='refresh.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
-    def open_dialog(self):
-        Child()
+        self.tree = ttk.Treeview(self, columns=('ID', 'PetShopID', 'Name', 'Adress', 'PostalCode', 'Phone'),
+                                 height=38, show='headings')
 
-    def open_update_dialog(self):
-        Update()
+        self.tree.column('ID', width=90, anchor=tk.CENTER)
+        self.tree.column('PetShopID', width=100, anchor=tk.CENTER)
+        self.tree.column('Name', width=150, anchor=tk.CENTER)
+        self.tree.column('Adress', width=200, anchor=tk.CENTER)
+        self.tree.column('PostalCode', width=150, anchor=tk.CENTER)
+        self.tree.column('Phone', width=170, anchor=tk.CENTER)
 
+        self.tree.heading('ID', text='ID')
+        self.tree.heading('PetShopID', text='PetShopID')
+        self.tree.heading('Name', text='Name')
+        self.tree.heading('Adress', text='Adress')
+        self.tree.heading('PostalCode', text='PostalCode')
+        self.tree.heading('Phone', text='Phone')
+
+        self.tree.pack()
+
+    def open_dialog_pet(self):
+        AddPet()
+
+    def update_dialog_pet(self):
+        UpdatePet()
+
+class AddPet(tk.Toplevel):
+    def __init__(self):
+        super().__init__(pet_shop_dialog)
+        self.init_child()
+        self.view = pet_shop_table
+
+    def init_child(self):
+        self.title("Insert Values")
+        self.geometry('600x400')
+        self.resizable(False, False)
+
+        label_pet_shop_id = tk.Label(self, text='PetShopID:')
+        label_pet_shop_id.place(x=180, y=50)
+        label_name = tk.Label(self, text='Name:')
+        label_name.place(x=180, y=80)
+        label_adress = tk.Label(self, text='Adress:')
+        label_adress.place(x=180, y=110)
+        label_postal_code = tk.Label(self, text='PostalCode:')
+        label_postal_code.place(x=180, y=140)
+        label_phone = tk.Label(self, text='Phone:')
+        label_phone.place(x=180, y=170)
+
+        self.entry_pet_shop_id = ttk.Entry(self)
+        self.entry_pet_shop_id.place(x=325, y=50)
+
+        self.entry_name = ttk.Entry(self)
+        self.entry_name.place(x=325, y=80)
+
+        self.entry_adress = ttk.Entry(self)
+        self.entry_adress.place(x=325, y=110)
+
+        self.entry_postal_code = ttk.Entry(self)
+        self.entry_postal_code.place(x=325, y=140)
+
+        self.entry_phone = ttk.Entry(self)
+        self.entry_phone.place(x=325, y=170)
+
+        btn_cancel = ttk.Button(self, text='Close', command=self.destroy)
+        btn_cancel.place(x=350, y=300)
+
+        self.btn_add = ttk.Button(self, text='Add')
+        self.btn_add.place(x=200, y=300)
+        self.btn_add.bind('<Button-1>')
+
+class UpdatePet(AddPet):
+    def __init__(self):
+        super().__init__()
+        self.init_edit()
+        self.view = pet_shop_table
+
+    def init_edit(self):
+        self.title('Edit')
+        btn_edit = ttk.Button(self, text='Edit')
+        btn_edit.place(x=200, y=300)
+        btn_edit.bind('<Button-1>')
+
+        self.btn_add.destroy()
 
 class PetFoodDialog(tk.Toplevel):
     def __init__(self):
         super().__init__(pet_shop_dialog)
-        self.init_main()
+        self.init_pet_food()
 
     # self.db = db
 
-    def init_main(self):
+    def init_pet_food(self):
         self.title("PetFood Table")
-        self.geometry("1020x900+300+200")
+        self.geometry("1280x800")
         self.resizable(False, False)
-        toolbar = tk.Frame(bg='#d7d8e0', bd=2)
-        toolbar.pack(side=tk.TOP, fill=tk.X)
 
         self.add_img = tk.PhotoImage(file="button_grey_add.png")
-        btn_open_dialog = tk.Button(self, toolbar, text='Add', command=self.open_dialog, bg='#d7d8e0', bd=0,
-                                    compound=tk.TOP, image=self.add_img)
+        btn_open_dialog = tk.Button(self, text='Add', command=self.open_dialog_pet_food, bg='#d7d8e0', bd=0,
+                                    compound=tk.TOP, image=self.add_img, padx="15", pady="6", font="15")
         btn_open_dialog.pack(side=tk.LEFT)
 
         self.update_img = tk.PhotoImage(file='database_download.png')
-        btn_edit_dialog = tk.Button(self, toolbar, text='Edit', bg='#d7d8e0', bd=0, image=self.update_img,
-                                    compound=tk.TOP, command=self.open_update_dialog)
+        btn_edit_dialog = tk.Button(self, text='Edit', command=self.update_dialog_pet_food, bg='#d7d8e0', bd=0,
+                                    image=self.update_img, compound=tk.TOP, padx="15", pady="6", font="15")
         btn_edit_dialog.pack(side=tk.LEFT)
 
         self.delete_img = tk.PhotoImage(file='button_grey_delete.png')
-        btn_delete_dialog = tk.Button(self, toolbar, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
-                                      compound=tk.TOP)
+        btn_delete_dialog = tk.Button(self, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_delete_dialog.pack(side=tk.LEFT)
 
         self.search_img = tk.PhotoImage(file='zoom_in.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
         self.refresh_img = tk.PhotoImage(file='refresh.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
-    def open_dialog(self):
-        Child()
+        self.tree = ttk.Treeview(self, columns=('ID', 'PetShopID', 'Name', 'Adress', 'PostalCode', 'Phone'),
+                                 height=38, show='headings')
 
-    def open_update_dialog(self):
-        Update()
+        self.tree.column('ID', width=90, anchor=tk.CENTER)
+        self.tree.column('PetShopID', width=100, anchor=tk.CENTER)
+        self.tree.column('Name', width=150, anchor=tk.CENTER)
+        self.tree.column('Adress', width=200, anchor=tk.CENTER)
+        self.tree.column('PostalCode', width=150, anchor=tk.CENTER)
+        self.tree.column('Phone', width=170, anchor=tk.CENTER)
 
+        self.tree.heading('ID', text='ID')
+        self.tree.heading('PetShopID', text='PetShopID')
+        self.tree.heading('Name', text='Name')
+        self.tree.heading('Adress', text='Adress')
+        self.tree.heading('PostalCode', text='PostalCode')
+        self.tree.heading('Phone', text='Phone')
+
+        self.tree.pack()
+
+    def open_dialog_pet_food(self):
+        AddPetFood()
+
+    def update_dialog_pet_food(self):
+        UpdatePetFood()
+
+class AddPetFood(tk.Toplevel):
+    def __init__(self):
+        super().__init__(pet_shop_dialog)
+        self.init_child()
+        self.view = pet_shop_table
+
+    def init_child(self):
+        self.title("Insert Values")
+        self.geometry('600x400')
+        self.resizable(False, False)
+
+        label_pet_shop_id = tk.Label(self, text='PetShopID:')
+        label_pet_shop_id.place(x=180, y=50)
+        label_name = tk.Label(self, text='Name:')
+        label_name.place(x=180, y=80)
+        label_adress = tk.Label(self, text='Adress:')
+        label_adress.place(x=180, y=110)
+        label_postal_code = tk.Label(self, text='PostalCode:')
+        label_postal_code.place(x=180, y=140)
+        label_phone = tk.Label(self, text='Phone:')
+        label_phone.place(x=180, y=170)
+
+        self.entry_pet_shop_id = ttk.Entry(self)
+        self.entry_pet_shop_id.place(x=325, y=50)
+
+        self.entry_name = ttk.Entry(self)
+        self.entry_name.place(x=325, y=80)
+
+        self.entry_adress = ttk.Entry(self)
+        self.entry_adress.place(x=325, y=110)
+
+        self.entry_postal_code = ttk.Entry(self)
+        self.entry_postal_code.place(x=325, y=140)
+
+        self.entry_phone = ttk.Entry(self)
+        self.entry_phone.place(x=325, y=170)
+
+        btn_cancel = ttk.Button(self, text='Close', command=self.destroy)
+        btn_cancel.place(x=350, y=300)
+
+        self.btn_add = ttk.Button(self, text='Add')
+        self.btn_add.place(x=200, y=300)
+        self.btn_add.bind('<Button-1>')
+
+class UpdatePetFood(AddPetFood):
+    def __init__(self):
+        super().__init__()
+        self.init_edit()
+        self.view = pet_shop_table
+
+    def init_edit(self):
+        self.title('Edit')
+        btn_edit = ttk.Button(self, text='Edit')
+        btn_edit.place(x=200, y=300)
+        btn_edit.bind('<Button-1>')
+
+        self.btn_add.destroy()
 
 class PetAccessoryDialog(tk.Toplevel):
     def __init__(self):
         super().__init__(pet_shop_dialog)
-        self.init_main()
+        self.init_pet_accessory()
 
     # self.db = db
 
-    def init_main(self):
+    def init_pet_accessory(self):
         self.title("PetAccessory Table")
-        self.geometry("1020x900+300+200")
+        self.geometry("1280x800")
         self.resizable(False, False)
-        toolbar = tk.Frame(bg='#d7d8e0', bd=2)
-        toolbar.pack(side=tk.TOP, fill=tk.X)
 
         self.add_img = tk.PhotoImage(file="button_grey_add.png")
-        btn_open_dialog = tk.Button(self, toolbar, text='Add', command=self.open_dialog, bg='#d7d8e0', bd=0,
-                                    compound=tk.TOP, image=self.add_img)
+        btn_open_dialog = tk.Button(self, text='Add', command=self.open_dialog_pet_accessory, bg='#d7d8e0', bd=0,
+                                    compound=tk.TOP, image=self.add_img, padx="15", pady="6", font="15")
         btn_open_dialog.pack(side=tk.LEFT)
 
         self.update_img = tk.PhotoImage(file='database_download.png')
-        btn_edit_dialog = tk.Button(self, toolbar, text='Edit', bg='#d7d8e0', bd=0, image=self.update_img,
-                                    compound=tk.TOP, command=self.open_update_dialog)
+        btn_edit_dialog = tk.Button(self, text='Edit', command=self.update_dialog_pet_accessory, bg='#d7d8e0', bd=0,
+                                    image=self.update_img, compound=tk.TOP, padx="15", pady="6", font="15")
         btn_edit_dialog.pack(side=tk.LEFT)
 
         self.delete_img = tk.PhotoImage(file='button_grey_delete.png')
-        btn_delete_dialog = tk.Button(self, toolbar, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
-                                      compound=tk.TOP)
+        btn_delete_dialog = tk.Button(self, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_delete_dialog.pack(side=tk.LEFT)
 
         self.search_img = tk.PhotoImage(file='zoom_in.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
         self.refresh_img = tk.PhotoImage(file='refresh.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
-    def open_dialog(self):
-        Child()
+        self.tree = ttk.Treeview(self, columns=('ID', 'PetShopID', 'Name', 'Adress', 'PostalCode', 'Phone'),
+                                 height=38, show='headings')
 
-    def open_update_dialog(self):
-        Update()
+        self.tree.column('ID', width=90, anchor=tk.CENTER)
+        self.tree.column('PetShopID', width=100, anchor=tk.CENTER)
+        self.tree.column('Name', width=150, anchor=tk.CENTER)
+        self.tree.column('Adress', width=200, anchor=tk.CENTER)
+        self.tree.column('PostalCode', width=150, anchor=tk.CENTER)
+        self.tree.column('Phone', width=170, anchor=tk.CENTER)
 
+        self.tree.heading('ID', text='ID')
+        self.tree.heading('PetShopID', text='PetShopID')
+        self.tree.heading('Name', text='Name')
+        self.tree.heading('Adress', text='Adress')
+        self.tree.heading('PostalCode', text='PostalCode')
+        self.tree.heading('Phone', text='Phone')
+
+        self.tree.pack()
+
+    def open_dialog_pet_accessory(self):
+        AddPetAccessory()
+
+    def update_dialog_pet_accessory(self):
+        UpdatePetAccessory()
+
+class AddPetAccessory(tk.Toplevel):
+    def __init__(self):
+        super().__init__(pet_shop_dialog)
+        self.init_child()
+        self.view = pet_shop_table
+
+    def init_child(self):
+        self.title("Insert Values")
+        self.geometry('600x400')
+        self.resizable(False, False)
+
+        label_pet_shop_id = tk.Label(self, text='PetShopID:')
+        label_pet_shop_id.place(x=180, y=50)
+        label_name = tk.Label(self, text='Name:')
+        label_name.place(x=180, y=80)
+        label_adress = tk.Label(self, text='Adress:')
+        label_adress.place(x=180, y=110)
+        label_postal_code = tk.Label(self, text='PostalCode:')
+        label_postal_code.place(x=180, y=140)
+        label_phone = tk.Label(self, text='Phone:')
+        label_phone.place(x=180, y=170)
+
+        self.entry_pet_shop_id = ttk.Entry(self)
+        self.entry_pet_shop_id.place(x=325, y=50)
+
+        self.entry_name = ttk.Entry(self)
+        self.entry_name.place(x=325, y=80)
+
+        self.entry_adress = ttk.Entry(self)
+        self.entry_adress.place(x=325, y=110)
+
+        self.entry_postal_code = ttk.Entry(self)
+        self.entry_postal_code.place(x=325, y=140)
+
+        self.entry_phone = ttk.Entry(self)
+        self.entry_phone.place(x=325, y=170)
+
+        btn_cancel = ttk.Button(self, text='Close', command=self.destroy)
+        btn_cancel.place(x=350, y=300)
+
+        self.btn_add = ttk.Button(self, text='Add')
+        self.btn_add.place(x=200, y=300)
+        self.btn_add.bind('<Button-1>')
+
+class UpdatePetAccessory(AddPetAccessory):
+    def __init__(self):
+        super().__init__()
+        self.init_edit()
+        self.view = pet_shop_table
+
+    def init_edit(self):
+        self.title('Edit')
+        btn_edit = ttk.Button(self, text='Edit')
+        btn_edit.place(x=200, y=300)
+        btn_edit.bind('<Button-1>')
+
+        self.btn_add.destroy()
 
 class ManufacturerDialog(tk.Toplevel):
     def __init__(self):
         super().__init__(pet_shop_dialog)
-        self.init_main(toolbar=tk.Frame(bg='#d7d8e0', bd=2))
-        self.open_dialog()
-        self.open_update_dialog()
+        self.init_manufacturer()
 
     # self.db = db
 
-    def init_main(self, toolbar):
+    def init_manufacturer(self):
         self.title("Manufacturer Table")
-        self.geometry("1020x900+300+200")
+        self.geometry("1280x800")
         self.resizable(False, False)
-        toolbar = tk.Frame(bg='#d7d8e0', bd=2)
-        toolbar.pack(side=tk.TOP, fill=tk.X)
 
         self.add_img = tk.PhotoImage(file="button_grey_add.png")
-        btn_open_dialog = tk.Button(self, toolbar, text='Add', command=self.open_dialog, bg='#d7d8e0', bd=0,
-                                    compound=tk.TOP, image=self.add_img)
+        btn_open_dialog = tk.Button(self, text='Add', command=self.open_dialog_manufacturer, bg='#d7d8e0', bd=0,
+                                    compound=tk.TOP, image=self.add_img, padx="15", pady="6", font="15")
         btn_open_dialog.pack(side=tk.LEFT)
 
         self.update_img = tk.PhotoImage(file='database_download.png')
-        btn_edit_dialog = tk.Button(self, toolbar, text='Edit', bg='#d7d8e0', bd=0, image=self.update_img,
-                                    compound=tk.TOP)
+        btn_edit_dialog = tk.Button(self, text='Edit', command=self.update_dialog_manufacturer, bg='#d7d8e0', bd=0,
+                                    image=self.update_img, compound=tk.TOP, padx="15", pady="6", font="15")
         btn_edit_dialog.pack(side=tk.LEFT)
 
         self.delete_img = tk.PhotoImage(file='button_grey_delete.png')
-        btn_delete_dialog = tk.Button(self, toolbar, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
-                                      compound=tk.TOP)
+        btn_delete_dialog = tk.Button(self, text='Delete', bg='#d7d8e0', bd=0, image=self.delete_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_delete_dialog.pack(side=tk.LEFT)
 
         self.search_img = tk.PhotoImage(file='zoom_in.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Search', bg='#d7d8e0', bd=0, image=self.search_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
         self.refresh_img = tk.PhotoImage(file='refresh.png')
-        btn_search_dialog = tk.Button(self, toolbar, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
-                                      compound=tk.TOP)
+        btn_search_dialog = tk.Button(self, text='Refresh', bg='#d7d8e0', bd=0, image=self.refresh_img,
+                                      compound=tk.TOP, padx="15", pady="6", font="15")
         btn_search_dialog.pack(side=tk.LEFT)
 
+        self.tree = ttk.Treeview(self, columns=('ID', 'PetShopID', 'Name', 'Adress', 'PostalCode', 'Phone'),
+                                 height=38, show='headings')
 
-    def open_dialog(self):
-        Child()
+        self.tree.column('ID', width=90, anchor=tk.CENTER)
+        self.tree.column('PetShopID', width=100, anchor=tk.CENTER)
+        self.tree.column('Name', width=150, anchor=tk.CENTER)
+        self.tree.column('Adress', width=200, anchor=tk.CENTER)
+        self.tree.column('PostalCode', width=150, anchor=tk.CENTER)
+        self.tree.column('Phone', width=170, anchor=tk.CENTER)
 
-    def open_update_dialog(self):
-        Update()
+        self.tree.heading('ID', text='ID')
+        self.tree.heading('PetShopID', text='PetShopID')
+        self.tree.heading('Name', text='Name')
+        self.tree.heading('Adress', text='Adress')
+        self.tree.heading('PostalCode', text='PostalCode')
+        self.tree.heading('Phone', text='Phone')
 
+        self.tree.pack()
+
+    def open_dialog_manufacturer(self):
+        AddManufacturer()
+
+    def update_dialog_manufacturer(self):
+        UpdateManufacturer()
+
+class AddManufacturer(tk.Toplevel):
+    def __init__(self):
+        super().__init__(pet_shop_dialog)
+        self.init_child()
+        self.view = pet_shop_table
+
+    def init_child(self):
+        self.title("Insert Values")
+        self.geometry('600x400')
+        self.resizable(False, False)
+
+        label_pet_shop_id = tk.Label(self, text='PetShopID:')
+        label_pet_shop_id.place(x=180, y=50)
+        label_name = tk.Label(self, text='Name:')
+        label_name.place(x=180, y=80)
+        label_adress = tk.Label(self, text='Adress:')
+        label_adress.place(x=180, y=110)
+        label_postal_code = tk.Label(self, text='PostalCode:')
+        label_postal_code.place(x=180, y=140)
+        label_phone = tk.Label(self, text='Phone:')
+        label_phone.place(x=180, y=170)
+
+        self.entry_pet_shop_id = ttk.Entry(self)
+        self.entry_pet_shop_id.place(x=325, y=50)
+
+        self.entry_name = ttk.Entry(self)
+        self.entry_name.place(x=325, y=80)
+
+        self.entry_adress = ttk.Entry(self)
+        self.entry_adress.place(x=325, y=110)
+
+        self.entry_postal_code = ttk.Entry(self)
+        self.entry_postal_code.place(x=325, y=140)
+
+        self.entry_phone = ttk.Entry(self)
+        self.entry_phone.place(x=325, y=170)
+
+        btn_cancel = ttk.Button(self, text='Close', command=self.destroy)
+        btn_cancel.place(x=350, y=300)
+
+        self.btn_add = ttk.Button(self, text='Add')
+        self.btn_add.place(x=200, y=300)
+        self.btn_add.bind('<Button-1>')
+
+class UpdateManufacturer(AddManufacturer):
+    def __init__(self):
+        super().__init__()
+        self.init_edit()
+        self.view = pet_shop_table
+
+    def init_edit(self):
+        self.title('Edit')
+        btn_edit = ttk.Button(self, text='Edit')
+        btn_edit.place(x=200, y=300)
+        btn_edit.bind('<Button-1>')
+
+        self.btn_add.destroy()
 
 class Child(tk.Toplevel):
     def __init__(self):
@@ -485,8 +997,6 @@ class Child(tk.Toplevel):
         self.btn_add.place(x=200, y=300)
         self.btn_add.bind('<Button-1>')
 
-
-
 class Update(Child):
     def __init__(self):
         super().__init__()
@@ -500,7 +1010,6 @@ class Update(Child):
         btn_edit.bind('<Button-1>')
 
         self.btn_add.destroy()
-
 
 class PetShopTable:
     def __init__(self):
